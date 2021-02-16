@@ -1,0 +1,22 @@
+var a:int;
+var b:real =   1.23;
+
+func main() {
+    for i in 1...100 step 2 {
+        var x,y,   z = 12, 1 if (a == 1) else 0, weirdFunction(a, b, thirdParam: i), i;
+    }
+    var s: string = 'toobadthisstringisjusttoolongomgwhat,nonotagain, stopppppp';
+    // Nothing to see here
+    /* Useless switch case
+       No, really, it's useless. *oh wait that might be useful*/
+    switch (i) {
+        case 2+3 {
+            weirdFunction(a,b,3);
+        }
+    }
+}
+
+func weirdFunction(firstParam: int, secondParam: real, thirdParam: real)->int,int,real {
+    return 1,2,3;
+}
+
