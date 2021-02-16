@@ -25,7 +25,9 @@ public class Lexer {
     Lexer(String filePath) throws IOException {
         // Append EOF to file to check for end condition
         FileWriter fw = new FileWriter(filePath, true);
-        char ch = 26;
+        char ch = '\n';
+        fw.write(ch);
+        ch = 26;
         fw.write(ch);
         fw.flush();
         fw.close();
@@ -268,6 +270,7 @@ public class Lexer {
             // Single line comment, stay in state 14 until we see newline, then reset
             case 14:
                 if (ch == '\n') {
+                    line++;
                     incEnd();
                     reset();
                 } else {
@@ -278,6 +281,8 @@ public class Lexer {
             case 15:
                 if (ch == '*') {
                     state = 16;
+                } else if (ch == '\n') {
+                    line++;
                 }
                 incEnd();
                 break;
@@ -287,6 +292,9 @@ public class Lexer {
                     incEnd();
                     reset();
                 } else {
+                    if (ch == '\n') {
+                        line++;
+                    }
                     state = 15;
                     incEnd();
                 }

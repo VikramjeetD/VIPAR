@@ -19,4 +19,4 @@ func main() {
 func weirdFunction(firstParam: int, secondParam: real, thirdParam: real)->int,int,real {
     return 1,2,3;
 }
-
+
