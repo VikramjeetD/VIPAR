@@ -78,6 +78,9 @@ public class Lexer {
                 fillBuffer();
             }
         }
+        if (state == 18) {
+            System.err.println("End of string literal not found on line " + line);
+        }
     }
 
     public void transition(char ch) {
@@ -324,15 +327,15 @@ public class Lexer {
                     stringLiteral.append(ch);
                     incEnd();
                 } else {
+                    if (ch == '\n') {
+                        line++;
+                        pos = 0;
+                    }
                     incEnd();
                 }
                 break;
             case 19:
                 if (safeTokens.contains(ch)) {
-                    if (ch == '\n') {
-                        line++;
-                        pos = 0;
-                    }
                     reset();
                 } else {
                     incEnd();
