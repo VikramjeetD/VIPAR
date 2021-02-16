@@ -159,9 +159,7 @@ public class Lexer {
                 } else {
                     String token = getToken(0);
                     if (reservedWords.contains(token)) {
-//                        System.out.println("Token: " + token + "; Lexeme: " + tokens.get(token) + "; Line: " + line);
                         printAndReset(tokens.get("for"), 0);
-//                        incEnd();
                     } else {
                         printAndReset("TK_IDF", 0);
                     }
@@ -249,7 +247,7 @@ public class Lexer {
                     printAndReset(tokens.get("..<"), 1);
                 } else {
                     state = 19;
-                    System.err.println("Unexpected token at line " + line + " at position " + pos);
+                    System.err.println("Unexpected token at line " + line + " at position " + (pos - 1));
                     incEnd();
                 }
                 break;
@@ -276,6 +274,7 @@ public class Lexer {
             case 14:
                 if (ch == '\n') {
                     line++;
+                    pos = 0;
                     incEnd();
                     reset();
                 } else {
@@ -287,6 +286,7 @@ public class Lexer {
                 if (ch == '*') {
                     state = 16;
                 } else if (ch == '\n') {
+                    pos = 0;
                     line++;
                 }
                 incEnd();
@@ -299,6 +299,7 @@ public class Lexer {
                 } else {
                     if (ch == '\n') {
                         line++;
+                        pos = 0;
                     }
                     state = 15;
                     incEnd();
@@ -326,6 +327,10 @@ public class Lexer {
                 break;
             case 19:
                 if (safeTokens.contains(ch)) {
+                    if (ch == '\n') {
+                        line++;
+                        pos = 0;
+                    }
                     reset();
                 } else {
                     incEnd();
