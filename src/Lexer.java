@@ -320,8 +320,10 @@ public class Lexer {
                     end += 1;
                     pos += 1;
                     reset();
-                } else {
+                } else if (ch != '\n' && ch != '\r' && ch != '\t'){
                     stringLiteral.append(ch);
+                    incEnd();
+                } else {
                     incEnd();
                 }
                 break;
