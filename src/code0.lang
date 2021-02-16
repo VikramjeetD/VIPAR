@@ -20,3 +20,5 @@ func weirdFunction(firstParam: int, secondParam: real, thirdParam: real)->int,in
     return 1,2,3;
 }
 
+
+

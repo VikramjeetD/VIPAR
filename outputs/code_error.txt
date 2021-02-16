@@ -1,0 +1,28 @@
+Token: func; Lexeme: TK_FUNC; Line: 5
+Token: main; Lexeme: TK_IDF; Line: 5
+Token: (; Lexeme: TK_PARO; Line: 5
+Token: ); Lexeme: TK_PARC; Line: 5
+Token: {; Lexeme: TK_BRO; Line: 5
+Token: for; Lexeme: TK_FOR; Line: 6
+Token: i; Lexeme: TK_IDF; Line: 6
+Token: in; Lexeme: TK_IN; Line: 6
+Token: 1; Lexeme: TK_INT; Line: 6
+Token: step; Lexeme: TK_STEP; Line: 6
+Token: 2; Lexeme: TK_INT; Line: 6
+Token: {; Lexeme: TK_BRO; Line: 6
+Token: var; Lexeme: TK_VARDEC; Line: 7
+Token: lol; Lexeme: TK_IDF; Line: 7
+Token: :; Lexeme: TK_COL; Line: 7
+Token: string; Lexeme: TK_STYPE; Line: 7
+Token: =; Lexeme: TK_EQ; Line: 7
+Token: 'that isn'; Lexeme: TK_STR; Line: 7
+Token: t; Lexeme: TK_IDF; Line: 7
+Token: a; Lexeme: TK_IDF; Line: 7
+Token: valid; Lexeme: TK_IDF; Line: 7
+Token: character; Lexeme: TK_IDF; Line: 7
+Token: :; Lexeme: TK_COL; Line: 7
+Token: ); Lexeme: TK_PARC; Line: 7
+Illegal character: ` at line 5 at position 15
+Unexpected token at line 6 at position 15
+Illegal character: \ at line 7 at position 9
+End of string literal not found on line 10

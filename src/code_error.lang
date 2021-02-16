@@ -4,7 +4,6 @@
 // HUNDREDS of errors in this code
 func main() { `
     for i in 1..>100 step 2 { // Thats not an nice token dude!
-        \ var lol: string = 'that isn't a valid character :)''; // And we keep going till eternity, but this is not a comment haha, sneaky quote!
+        \ var lol: string = 'that isn't a valid character :)'; // And we keep going till eternity, but this is not a comment haha, sneaky quote!
     }
 }
-

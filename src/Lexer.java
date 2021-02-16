@@ -162,7 +162,7 @@ public class Lexer {
                 } else {
                     String token = getToken(0);
                     if (reservedWords.contains(token)) {
-                        printAndReset(tokens.get("for"), 0);
+                        printAndReset(tokens.get(token), 0);
                     } else {
                         printAndReset("TK_IDF", 0);
                     }
@@ -198,49 +198,49 @@ public class Lexer {
                 if (ch == '=') {
                     printAndReset(tokens.get(":="), 1);
                 } else {
-                    printAndReset(tokens.get(Character.toString(':')), 0);
+                    printAndReset(tokens.get(":"), 0);
                 }
                 break;
             case 5:
                 if (ch == '=') {
                     printAndReset(tokens.get("=="), 1);
                 } else {
-                    printAndReset(tokens.get(Character.toString('=')), 0);
+                    printAndReset(tokens.get("="), 0);
                 }
                 break;
             case 6:
                 if (ch == '=') {
                     printAndReset(tokens.get("<="), 1);
                 } else {
-                    printAndReset(tokens.get(Character.toString('<')), 0);
+                    printAndReset(tokens.get("<"), 0);
                 }
                 break;
             case 7:
                 if (ch == '=') {
                     printAndReset(tokens.get(">="), 1);
                 } else {
-                    printAndReset(tokens.get(Character.toString('>')), 0);
+                    printAndReset(tokens.get(">"), 0);
                 }
                 break;
             case 8:
                 if (ch == '=') {
                     printAndReset(tokens.get("!="), 1);
                 } else {
-                    printAndReset(tokens.get(Character.toString('!')), 0);
+                    printAndReset(tokens.get("!"), 0);
                 }
                 break;
             case 9:
                 if (ch == '&') {
                     printAndReset(tokens.get("&&"), 1);
                 } else {
-                    printAndReset(tokens.get(Character.toString('&')), 0);
+                    printAndReset(tokens.get("&"), 0);
                 }
                 break;
             case 10:
                 if (ch == '|') {
                     printAndReset(tokens.get("||"), 1);
                 } else {
-                    printAndReset(tokens.get(Character.toString('|')), 0);
+                    printAndReset(tokens.get("|"), 0);
                 }
                 break;
             case 11:
@@ -259,7 +259,7 @@ public class Lexer {
                     state = 11;
                     incEnd();
                 } else {
-                    printAndReset(tokens.get(Character.toString('.')), 0);
+                    printAndReset(tokens.get("."), 0);
                 }
                 break;
             case 13:
@@ -270,7 +270,7 @@ public class Lexer {
                     state = 15;
                     incEnd();
                 } else {
-                    printAndReset(tokens.get(Character.toString('/')), 0);
+                    printAndReset(tokens.get("/"), 0);
                 }
                 break;
             // Single line comment, stay in state 14 until we see newline, then reset
@@ -313,7 +313,7 @@ public class Lexer {
                 if (ch == '>') {
                     printAndReset(tokens.get("->"), 1);
                 } else {
-                    printAndReset(tokens.get(Character.toString('-')), 0);
+                    printAndReset(tokens.get("-"), 0);
                 }
                 break;
             case 18:

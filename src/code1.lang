@@ -1,4 +1,5 @@
-var wrapit: string = 'see 
+func main() {
+    var wrapit: string = 'see 
 how 
 this 
 string 
@@ -6,4 +7,9 @@ wraps
 its 
 soo 
 cooooooool!';
-
+    var x: int = syntaxerror;
+    var y: float = 1.2;
+    if ((x == 23 && y < 5) || y > 5) {
+        print('i like syntax errors');
+    }
+}
