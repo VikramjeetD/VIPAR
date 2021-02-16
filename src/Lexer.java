@@ -16,6 +16,7 @@ public class Lexer {
     private final Map<String, String> tokens; // Hashmap of token -> lexemes
     private final Set<Character> specialChars; // Special charset available for use in variable names
     private final Set<String> reservedWords; // Reserved word set.
+    private final Set<Character> safeTokens;
     private final Reader reader;
     private int line; // Line number
     private int pos; // Position in line
@@ -45,6 +46,7 @@ public class Lexer {
         tokens = Tokens.tokens;
         specialChars = Tokens.specialChars;
         reservedWords = Tokens.reservedWords;
+        safeTokens = Tokens.safeTokens;
         reader = new Reader(filePath);
         fillBuffer();
         getTokens();
@@ -146,7 +148,8 @@ public class Lexer {
                             state = 2;
                             incEnd();
                         } else {
-                            System.err.println("Unexpected token at line " + line + " at position " + pos);
+                            state = 19;
+                            System.err.println("Illegal character: " + ch + " at line " + line + " at position " + pos);
                         }
                 }
                 break;
@@ -156,9 +159,9 @@ public class Lexer {
                 } else {
                     String token = getToken(0);
                     if (reservedWords.contains(token)) {
-                        System.out.println("Token: " + token + "; Lexeme: " + tokens.get(token) + "; Line: " + line);
-                        incEnd();
-                        reset();
+//                        System.out.println("Token: " + token + "; Lexeme: " + tokens.get(token) + "; Line: " + line);
+                        printAndReset(tokens.get("for"), 0);
+//                        incEnd();
                     } else {
                         printAndReset("TK_IDF", 0);
                     }
@@ -168,6 +171,7 @@ public class Lexer {
                 if (Character.isDigit(ch)) {
                     incEnd();
                 } else if (Character.isLetter(ch)) {
+                    state = 19;
                     System.err.println("Unexpected token at line " + line + " at position " + pos);
                 } else if (ch == '.') {
                     state = 3;
@@ -183,6 +187,7 @@ public class Lexer {
                 } else if (Character.isDigit(ch)) {
                     incEnd();
                 } else if (Character.isLetter(ch)) {
+                    state = 19;
                     System.err.println("Unexpected token at line " + line + " at position " + pos);
                 } else {
                     printAndReset("TK_REAL", 0);
@@ -243,9 +248,9 @@ public class Lexer {
                 } else if (ch == '<') {
                     printAndReset(tokens.get("..<"), 1);
                 } else {
+                    state = 19;
                     System.err.println("Unexpected token at line " + line + " at position " + pos);
                     incEnd();
-                    reset();
                 }
                 break;
             case 12:
@@ -318,6 +323,14 @@ public class Lexer {
                     stringLiteral.append(ch);
                     incEnd();
                 }
+                break;
+            case 19:
+                if (safeTokens.contains(ch)) {
+                    reset();
+                } else {
+                    incEnd();
+                }
+                break;
         }
     }
 

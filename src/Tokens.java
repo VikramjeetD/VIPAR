@@ -7,6 +7,7 @@ public class Tokens {
     public static final Map<String, String> tokens = new HashMap<>();
     public static final Set<Character> specialChars = new HashSet<>();
     public static final Set<String> reservedWords = new HashSet<>();
+    public static final Set<Character> safeTokens = new HashSet<>();
     static {
         reservedWords.add("func");
         reservedWords.add("case");
@@ -75,6 +76,33 @@ public class Tokens {
 
         specialChars.add('$');
         specialChars.add('_');
-    }
 
+        safeTokens.add(' ');
+        safeTokens.add(';');
+        safeTokens.add('\n');
+        safeTokens.add('\r');
+        safeTokens.add('!');
+        safeTokens.add('%');
+        safeTokens.add('^');
+        safeTokens.add('&');
+        safeTokens.add('*');
+        safeTokens.add('(');
+        safeTokens.add(')');
+        safeTokens.add('-');
+        safeTokens.add('+');
+        safeTokens.add('=');
+        safeTokens.add('[');
+        safeTokens.add(']');
+        safeTokens.add('}');
+        safeTokens.add('{');
+        safeTokens.add('|');
+        safeTokens.add('\'');
+        safeTokens.add('"');
+        safeTokens.add(':');
+        safeTokens.add('?');
+        safeTokens.add('>');
+        safeTokens.add('<');
+        safeTokens.add(',');
+        safeTokens.add('.');
+    }
 }
