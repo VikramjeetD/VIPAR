@@ -171,9 +171,6 @@ public class Lexer {
             case 2:
                 if (Character.isDigit(ch)) {
                     incEnd();
-                } else if (Character.isLetter(ch)) {
-                    state = 19;
-                    System.err.println("Unexpected token at line " + line + " at position " + pos);
                 } else if (ch == '.') {
                     state = 3;
                     incEnd();
@@ -187,9 +184,6 @@ public class Lexer {
                     printAndReset("TK_INT", 0);
                 } else if (Character.isDigit(ch)) {
                     incEnd();
-                } else if (Character.isLetter(ch)) {
-                    state = 19;
-                    System.err.println("Unexpected token at line " + line + " at position " + pos);
                 } else {
                     printAndReset("TK_REAL", 0);
                 }
@@ -312,6 +306,9 @@ public class Lexer {
             case 17:
                 if (ch == '>') {
                     printAndReset(tokens.get("->"), 1);
+                } else if (Character.isDigit(ch)) {
+                    state = 2;
+                    incEnd();
                 } else {
                     printAndReset(tokens.get("-"), 0);
                 }
