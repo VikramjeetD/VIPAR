@@ -179,13 +179,12 @@ public class Lexer {
                 }
                 break;
             case 3:
-                if (ch == '.') {
-                    retract(1);
-                    printAndReset("TK_INT", 0);
-                } else if (Character.isDigit(ch)) {
+                if (Character.isDigit(ch)) {
+                    state = 20;
                     incEnd();
                 } else {
-                    printAndReset("TK_REAL", 0);
+                    retract(1);
+                    printAndReset("TK_INT", 0);
                 }
                 break;
             case 4:
@@ -333,6 +332,13 @@ public class Lexer {
                     reset();
                 } else {
                     incEnd();
+                }
+                break;
+            case 20:
+                if (Character.isDigit(ch)) {
+                    incEnd();
+                } else {
+                    printAndReset(tokens.get("TK_REAL"), 0);
                 }
                 break;
         }
