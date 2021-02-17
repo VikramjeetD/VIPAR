@@ -306,9 +306,6 @@ public class Lexer {
             case 17:
                 if (ch == '>') {
                     printAndReset(tokens.get("->"), 1);
-                } else if (Character.isDigit(ch)) {
-                    state = 2;
-                    incEnd();
                 } else {
                     printAndReset(tokens.get("-"), 0);
                 }
