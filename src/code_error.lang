@@ -3,7 +3,7 @@
 // Put
 // HUNDREDS of errors in this code
 func main() { `
-    for i in 1..>100 step 2 { // Thats not an nice token dude!
+    for i in 1..>100 step 2 { // Thats not a nice token dude!
         \ var lol: string = 'that isn't a valid character :)'; // And we keep going till eternity, this is not a comment haha, sneaky quote!
     }
 }
