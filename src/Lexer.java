@@ -95,7 +95,7 @@ public class Lexer {
                     case '+': case '*':
                     case '(': case ')': case '{': case '}': case '[': case ']':
                     case ',': case ';':
-                        System.out.println("Token: " + ch + "; Lexeme: " + tokens.get(Character.toString(ch)) + "; Line: " + line);
+                        System.out.println("Lexeme: " + ch + "; Token: " + tokens.get(Character.toString(ch)) + "; Line: " + line);
                         incBeginEnd();
                         break;
                     case ':':
@@ -312,7 +312,7 @@ public class Lexer {
             case 18:
                 if (ch == '\'') {
                     stringLiteral.append("'");
-                    System.out.println("Token: " + stringLiteral.toString() + "; Lexeme: TK_STR" + "; Line: " + line);
+                    System.out.println("Lexeme: " + stringLiteral.toString() + "; Token: TK_STR" + "; Line: " + line);
                     end += 1;
                     pos += 1;
                     reset();
@@ -369,7 +369,7 @@ public class Lexer {
      */
     private void printAndReset(String tokenID, int forward) {
         String token = getToken(forward);
-        System.out.println("Token: " + token + "; Lexeme: " + tokenID + "; Line: " + line);
+        System.out.println("Lexeme: " + token + "; Token: " + tokenID + "; Line: " + line);
         end += forward;
         pos += forward;
         reset();
