@@ -13,11 +13,12 @@ public class Lexer {
     private int endBufferNumber; // Buffer which end belongs to (0 or 1)
     private int beginBufferNumber; // Buffer which begin belongs to (0 or 1)
     private int state;
-    private final Map<String, String> tokens; // Hashmap of token -> lexemes
+    private final Map<String, String> tokens; // Hashmap of lexemes -> tokens
     private final Set<Character> specialChars; // Special charset available for use in variable names
     private final Set<String> reservedWords; // Reserved word set.
     private final Set<Character> safeTokens;
     private final Reader reader;
+    private final Parser parser;
     private int line; // Line number
     private int pos; // Position in line
 
@@ -48,6 +49,7 @@ public class Lexer {
         reservedWords = Tokens.reservedWords;
         safeTokens = Tokens.safeTokens;
         reader = new Reader(filePath);
+        parser = new Parser();
         fillBuffer();
         getTokens();
     }
@@ -73,17 +75,22 @@ public class Lexer {
      */
     public void getTokens() throws IOException {
         while (!((endBufferNumber == 0 && buffer0[end] == 26) || (endBufferNumber == 1 && buffer1[end] == 26))) {
-            transition(endBufferNumber == 0? buffer0[end] : buffer1[end]);
+            char nextChar = endBufferNumber == 0 ? buffer0[end] : buffer1[end];
+            Pair pair = transition(nextChar);
+            if (pair != null) parser.addLexeme(pair);
             if (end >= BUFFER_SIZE) {
                 fillBuffer();
             }
         }
         if (state == 18) {
             System.err.println("End of string literal not found on line " + line);
+        } else {
+            parser.addLexeme(new Pair("$", "TK_END"));
         }
     }
 
-    public void transition(char ch) {
+    public Pair transition(char ch) {
+        Pair pair = null;
         switch (state) {
             case 0:
                 switch (ch) {
@@ -95,8 +102,11 @@ public class Lexer {
                     case '+': case '*':
                     case '(': case ')': case '{': case '}': case '[': case ']':
                     case ',': case ';':
-                        System.out.println("Lexeme: " + ch + "; Token: " + tokens.get(Character.toString(ch)) + "; Line: " + line);
+                        String lexeme = Character.toString(ch);
+                        String token = tokens.get(Character.toString(ch));
+//                        System.out.println("Lexeme: " + lexeme + "; Token: " + token + "; Line: " + line);
                         incBeginEnd();
+                        pair = new Pair(lexeme, token);
                         break;
                     case ':':
                         state = 4;
@@ -160,11 +170,11 @@ public class Lexer {
                 if (specialChars.contains(ch) || Character.isLetterOrDigit(ch)) {
                     incEnd();
                 } else {
-                    String token = getToken(0);
-                    if (reservedWords.contains(token)) {
-                        printAndReset(tokens.get(token), 0);
+                    String lexeme = getLexeme(0);
+                    if (reservedWords.contains(lexeme)) {
+                        pair = printAndReset(tokens.get(lexeme), 0);
                     } else {
-                        printAndReset("TK_IDF", 0);
+                        pair = printAndReset("TK_IDF", 0);
                     }
                 }
                 break;
@@ -175,7 +185,7 @@ public class Lexer {
                     state = 3;
                     incEnd();
                 } else {
-                    printAndReset("TK_INT", 0);
+                    pair = printAndReset("TK_INT", 0);
                 }
                 break;
             case 3:
@@ -184,63 +194,63 @@ public class Lexer {
                     incEnd();
                 } else {
                     retract(1);
-                    printAndReset("TK_INT", 0);
+                    pair = printAndReset("TK_INT", 0);
                 }
                 break;
             case 4:
                 if (ch == '=') {
-                    printAndReset(tokens.get(":="), 1);
+                    pair = printAndReset(tokens.get(":="), 1);
                 } else {
-                    printAndReset(tokens.get(":"), 0);
+                    pair = printAndReset(tokens.get(":"), 0);
                 }
                 break;
             case 5:
                 if (ch == '=') {
-                    printAndReset(tokens.get("=="), 1);
+                    pair = printAndReset(tokens.get("=="), 1);
                 } else {
-                    printAndReset(tokens.get("="), 0);
+                    pair = printAndReset(tokens.get("="), 0);
                 }
                 break;
             case 6:
                 if (ch == '=') {
-                    printAndReset(tokens.get("<="), 1);
+                    pair = printAndReset(tokens.get("<="), 1);
                 } else {
-                    printAndReset(tokens.get("<"), 0);
+                    pair = printAndReset(tokens.get("<"), 0);
                 }
                 break;
             case 7:
                 if (ch == '=') {
-                    printAndReset(tokens.get(">="), 1);
+                    pair = printAndReset(tokens.get(">="), 1);
                 } else {
-                    printAndReset(tokens.get(">"), 0);
+                    pair = printAndReset(tokens.get(">"), 0);
                 }
                 break;
             case 8:
                 if (ch == '=') {
-                    printAndReset(tokens.get("!="), 1);
+                    pair = printAndReset(tokens.get("!="), 1);
                 } else {
-                    printAndReset(tokens.get("!"), 0);
+                    pair = printAndReset(tokens.get("!"), 0);
                 }
                 break;
             case 9:
                 if (ch == '&') {
-                    printAndReset(tokens.get("&&"), 1);
+                    pair = printAndReset(tokens.get("&&"), 1);
                 } else {
-                    printAndReset(tokens.get("&"), 0);
+                    pair = printAndReset(tokens.get("&"), 0);
                 }
                 break;
             case 10:
                 if (ch == '|') {
-                    printAndReset(tokens.get("||"), 1);
+                    pair = printAndReset(tokens.get("||"), 1);
                 } else {
-                    printAndReset(tokens.get("|"), 0);
+                    pair = printAndReset(tokens.get("|"), 0);
                 }
                 break;
             case 11:
                 if (ch == '.') {
-                    printAndReset(tokens.get("..."), 1);
+                    pair = printAndReset(tokens.get("..."), 1);
                 } else if (ch == '<') {
-                    printAndReset(tokens.get("..<"), 1);
+                    pair = printAndReset(tokens.get("..<"), 1);
                 } else {
                     state = 19;
                     System.err.println("Unexpected token at line " + line + " at position " + (pos - 1));
@@ -252,7 +262,7 @@ public class Lexer {
                     state = 11;
                     incEnd();
                 } else {
-                    printAndReset(tokens.get("."), 0);
+                    pair = printAndReset(tokens.get("."), 0);
                 }
                 break;
             case 13:
@@ -263,7 +273,7 @@ public class Lexer {
                     state = 15;
                     incEnd();
                 } else {
-                    printAndReset(tokens.get("/"), 0);
+                    pair = printAndReset(tokens.get("/"), 0);
                 }
                 break;
             // Single line comment, stay in state 14 until we see newline, then reset
@@ -304,15 +314,17 @@ public class Lexer {
             // If >, then we get -> which is token for return types
             case 17:
                 if (ch == '>') {
-                    printAndReset(tokens.get("->"), 1);
+                    pair = printAndReset(tokens.get("->"), 1);
                 } else {
-                    printAndReset(tokens.get("-"), 0);
+                    pair = printAndReset(tokens.get("-"), 0);
                 }
                 break;
             case 18:
                 if (ch == '\'') {
                     stringLiteral.append("'");
-                    System.out.println("Lexeme: " + stringLiteral.toString() + "; Token: TK_STR" + "; Line: " + line);
+                    String lexeme = stringLiteral.toString();
+//                    System.out.println("Lexeme: " + lexeme + "; Token: TK_STR" + "; Line: " + line);
+                    pair = new Pair(lexeme, "TK_STR");
                     end += 1;
                     pos += 1;
                     reset();
@@ -329,6 +341,7 @@ public class Lexer {
                 break;
             case 19:
                 if (safeTokens.contains(ch)) {
+                    pair = new Pair(Character.toString(ch), "TK_SAFE");
                     reset();
                 } else {
                     incEnd();
@@ -338,17 +351,18 @@ public class Lexer {
                 if (Character.isDigit(ch)) {
                     incEnd();
                 } else {
-                    printAndReset(tokens.get("TK_REAL"), 0);
+                    pair = printAndReset("TK_REAL", 0);
                 }
                 break;
         }
+        return pair;
     }
 
     /**
      * If begin and end are in the same buffer, simply take whats between them
      * Otherwise, concatenate what comes after begin and what comes before end from the corresponding buffers
      */
-    private String getToken(int forward) {
+    private String getLexeme(int forward) {
         if (beginBufferNumber == endBufferNumber) {
             if (beginBufferNumber == 0) {
                 return new String(buffer0, begin, end - begin + forward);
@@ -367,12 +381,13 @@ public class Lexer {
      * @param forward forward = 1 if current character is part of current token
      *                forward = 0 otherwise (Eg: separators: .,,,;,:, etc.
      */
-    private void printAndReset(String tokenID, int forward) {
-        String token = getToken(forward);
-        System.out.println("Lexeme: " + token + "; Token: " + tokenID + "; Line: " + line);
+    private Pair printAndReset(String tokenID, int forward) {
+        String lexeme = getLexeme(forward);
+//        System.out.println("Lexeme: " + lexeme + "; Token: " + tokenID + "; Line: " + line);
         end += forward;
         pos += forward;
         reset();
+        return new Pair(lexeme, tokenID);
     }
 
     /**
@@ -403,5 +418,14 @@ public class Lexer {
         state = 0;
         begin = end;
         beginBufferNumber = endBufferNumber;
+    }
+}
+
+
+class Pair {
+    String lexeme, token;
+    Pair(String lexeme, String token) {
+        this.lexeme = lexeme;
+        this.token = token;
     }
 }

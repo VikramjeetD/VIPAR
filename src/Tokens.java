@@ -17,19 +17,25 @@ public class Tokens {
         reservedWords.add("in");
         reservedWords.add("for");
         reservedWords.add("else");
+        reservedWords.add("elif");
         reservedWords.add("if");
         reservedWords.add("real");
         reservedWords.add("int");
         reservedWords.add("string");
         reservedWords.add("var");
         reservedWords.add("return");
+        reservedWords.add("void");
+        reservedWords.add("main");
 
+        tokens.put("main", "TK_MAIN");
+        tokens.put("void", "TK_VOID");
         tokens.put("return", "TK_RET");
         tokens.put("var", "TK_VARDEC");
         tokens.put("int", "TK_ITYPE");
         tokens.put("real", "TK_RTYPE");
         tokens.put("string", "TK_STYPE");
         tokens.put("if", "TK_IF");
+        tokens.put("elif", "TK_ELIF");
         tokens.put("else", "TK_ELSE");
         tokens.put("for", "TK_FOR");
         tokens.put("in", "TK_IN");
