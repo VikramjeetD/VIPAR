@@ -7,3 +7,5 @@ func main() { `
         \ var lol: string = 'that isn't a valid character :)'; // And we keep going till eternity, this is not a comment haha, sneaky quote!
     }
 }
+
+

@@ -138,7 +138,7 @@ public class Parser {
     }
 
     private void DFSTraversal(Node node, BufferedWriter bw) throws IOException {
-        String nodeClass = (node.children != null && node.children.size() == 0) ? "tf-nc null-class" : "tf-nc";
+        String nodeClass = node.children == null ? "tf-nc tf-terminal" : node.children.size() == 0 ? "tf-nc null-class" : "tf-nc";
         bw.write("<li>\n" +
                 "<span class=\"" + nodeClass + "\">" + node.value + "</span>\n");
         if (node.children != null && node.children.size() > 0) {
