@@ -1,0 +1,25 @@
+var a : real, b : int = 322;
+
+func main() {
+    if (a == 34) {
+        afunction(a, b, 23);
+    }
+    var c: real = 34 if ((a - 9) != 36) else b;
+
+    for x in 3 ..< 34 { // useless for loop
+        while (b == 32) { // useless while loop
+            anotherfunction();
+        }
+    }
+}
+
+func afunction(a: int, b: real, c: int) -> real{
+    print('OMG');
+    return 0.1;
+}
+
+func anotherfunction() -> real {
+    print('Why did I call this?');
+}
+
+
