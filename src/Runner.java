@@ -4,6 +4,6 @@ import java.io.IOException;
 
 public class Runner {
     public static void main(String[] args) throws IOException, InvalidFormatException {
-        new Lexer("src/temp.lang");
+        new Lexer("src/code0.lang");
     }
 }

@@ -1,65 +1,76 @@
+import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
+import java.util.List;
 
 public class Parser {
-    private int currentState;
     private final Stack<Node> stack;
-    private final Map<String, String> tokens;
     private final Map<String, Integer> parsingMap;
     private final List<List<String>> table;
     private final List<List<String>> grammar;
-    private final Set<String> literalTokens;
-    private String prevLexeme;
+    private final Set<String> variableTokens;
+    private final Set<String> reduceUntilTokens;
+    private boolean errorOccurred, accepted, printed;
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
 
     Parser() {
         parsingMap = ParseTable.parsingMap;
         table = ParseTable.table;
         grammar = ParseTable.grammar;
-        tokens = Tokens.tokens;
-        literalTokens = new HashSet<>(Arrays.asList("TK_IDF", "TK_INT", "TK_REAL", "TK_STR"));
+        variableTokens = new HashSet<>(Arrays.asList("TK_IDF", "TK_INT", "TK_REAL", "TK_STR"));
+        reduceUntilTokens = new HashSet<>(Arrays.asList(";", "}", "{"));
 
         stack = new Stack<>();
-        shiftStack("0", true);
+        stack.push(new Node("0", true));
+        System.out.println("Initial stack: " + stack);
     }
 
     void addLexeme(Pair pair) {
         String lexeme = pair.lexeme;
-        String token = pair.token;
-        System.out.print("Stack before " + lexeme + ": ");
-        System.out.println(Arrays.toString(stack.toArray()));
-        String action, symbolToPush = lexeme;
-        if (prevLexeme != null && prevLexeme.equals("func") && token.equals("TK_IDF")) {
-            symbolToPush = "funcname";
-        } else if (tokens.containsKey(lexeme) || token.equals("TK_SAFE")) {
-            symbolToPush = lexeme;
-        } else if (literalTokens.contains(token)) {
-            symbolToPush = "variable";
-        } else if (lexeme.equals("->")) {
-            symbolToPush = "arrow";
+        if (errorOccurred) {
+            if (lexeme.equals(";") || lexeme.equals("}"))
+                errorOccurred = false;
+            return;
         }
 
-        action = table.get(currentState).get(parsingMap.get(symbolToPush));
+        String action, parseSymbol, token = pair.token;
+        if (lexeme.equals("->")) {
+            parseSymbol = "arrow";
+        } else if (variableTokens.contains(token)) {
+            parseSymbol = "variable";
+        } else {
+            parseSymbol = lexeme;
+        }
+
+        action = table.get(getState()).get(parsingMap.get(parseSymbol));
         try {
             if (action.length() == 0) {
-                System.out.println("SYNTAX ERROR for lexeme: '" + lexeme + "' and token: '" + token + "'!");
+                System.out.print(ANSI_RED + "Unexpected lexeme: '" + lexeme + "' ! ");
+                errorOccurred = true;
+                Node lastPoppedSymbol = stack.peek();
+                while (!stack.empty() && !reduceUntilTokens.contains(stack.peek().value)) {
+                    lastPoppedSymbol = stack.pop();
+                }
+                stack.push(lastPoppedSymbol);
+                System.out.println("Reduced Stack: " + stack + ANSI_RESET);
             } else {
                 switch (action.charAt(0)) {
                     case 'r':
-                        while (action.length() > 0 && action.charAt(0) == 'r') {
-//                            System.out.println("need to reduce stack for " + lexeme);
-                            reduceStack(Integer.parseInt(action.substring(1)));
-                            currentState = getState();
-                            action = table.get(currentState).get(parsingMap.get(symbolToPush));
-                        }
+                        reduceStack(Integer.parseInt(action.substring(1)));
+                        System.out.println("Stack after applying REDUCE operation for '" + lexeme + "' : " + stack);
                         addLexeme(pair);
                         break;
                     case 's':
-                        shiftStack(symbolToPush, false);
-                        shiftStack(action.substring(1), true);
-                        currentState = getState();
+                        stack.push(new Node(lexeme, false));
+                        stack.push(new Node(action.substring(1), true));
+                        System.out.println("Stack after applying SHIFT operation for '" + lexeme + "' : " + stack);
                         break;
                     case 'a':
-                        System.out.println("CODE successfully parsed!");
-                        // Node left in the stack will be the tree node i.e. 'PROGRAM' node
+                        accepted = true;
                         break;
                 }
             }
@@ -67,12 +78,15 @@ public class Parser {
             System.out.println("Error while parsing next state as an integer!");
             nfe.printStackTrace();
         }
-        prevLexeme = lexeme;
-        System.out.print("Stack after " + lexeme+": ");
-        System.out.println(Arrays.toString(stack.toArray()));
+
+        if (accepted && lexeme.equals("$") && !printed) {
+            System.out.println("CODE successfully parsed!");
+            printed = true;
+            drawTree();
+        }
     }
 
-    void reduceStack(int ruleNo) {
+    private void reduceStack(int ruleNo) {
         int noOfSymbolsToPop = 2 * (grammar.get(ruleNo).size() - 1);
         if (grammar.get(ruleNo).get(1).equals("''")) noOfSymbolsToPop = 0;
 //        System.out.println("No of items to pop = " + noOfSymbolsToPop + ", using rule = " + ruleNo);
@@ -87,38 +101,69 @@ public class Parser {
 
         int lastState = getState();
         Node node = new Node(grammar.get(ruleNo).get(0), false);
-        for (Node nd: children) {
-            node.addChild(nd);
-        }
-        shiftStack(node);
-        shiftStack(table.get(lastState).get(parsingMap.get(grammar.get(ruleNo).get(0))), true);
-    }
-
-    void shiftStack(Node node) {
+        node.addChildren(children);
         stack.push(node);
-    }
-    void shiftStack(String lexeme, boolean isState) {
-        stack.push(new Node (lexeme, isState));
+        stack.push(new Node(table.get(lastState).get(parsingMap.get(grammar.get(ruleNo).get(0))), true));
     }
 
-    int getState() {
+    private int getState() {
         return Integer.parseInt(stack.peek().value);
+    }
+
+    private void drawTree() {
+        try {
+            File file = new File("src/tree.html");
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+            bw.write("<!DOCTYPE html>\n" +
+                    "<html lang=\"en\">\n" +
+                    "<head>\n" +
+                    " <meta charset=\"UTF-8\">\n" +
+                    " <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                    " <title>Syntax Tree</title>\n" +
+                    " <link rel=\"stylesheet\" href=\"./tree.css\">\n" +
+                    " </head>\n" +
+                    "<body>\n<div class=\"tf-tree\">\n<ul>\n");
+
+            stack.pop();
+            Node root = stack.pop();
+            DFSTraversal(root, bw);
+
+            bw.write("</ul>\n</div>\n</body>\n</html>");
+            bw.close();
+            Desktop.getDesktop().browse(file.toURI());
+        } catch (IOException ioe) {
+            System.out.println("Unable to draw Tree!");
+            ioe.printStackTrace();
+        }
+    }
+
+    private void DFSTraversal(Node node, BufferedWriter bw) throws IOException {
+        String nodeClass = (node.children != null && node.children.size() == 0) ? "tf-nc null-class" : "tf-nc";
+        bw.write("<li>\n" +
+                "<span class=\"" + nodeClass + "\">" + node.value + "</span>\n");
+        if (node.children != null && node.children.size() > 0) {
+            bw.write("<ul>\n");
+            for (Node child : node.children) DFSTraversal(child, bw);
+            bw.write("</ul>\n");
+        }
+        bw.write("</li>\n");
     }
 }
 
 class Node {
-    private final List<Node> children;
+    List<Node> children;
     final String value;
     final boolean isState;
 
     public Node(String value, boolean isState) {
-        this.children = new ArrayList<>();
         this.value = value;
         this.isState = isState;
+        children = null;
     }
 
-    public void addChild(Node child) {
-        children.add(child);
+    public void addChildren(List<Node> children) {
+        Collections.reverse(children);
+        this.children = children;
     }
     
     @Override

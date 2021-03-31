@@ -1,6 +1,34 @@
-var a: real = 1.45;
-func main() {
+var a : int = 2 , b : real = 4.56 ;
+func main ( ) {
+    var c : int = 2 , d : real = 345.6789 ;
+    for i in 2 ... 8 {
+        count ( i , a , b ) ;
+        while ( i < c ) {
+            c = d + a ;
+            if ( a < b ) {
+                hello2 ( d ) ;
+            } elif ( a <= ( a - ( a / a ) ) ) {
+                b = c if ( d != a ) else d ;
+            }
+        }
+    }
 }
+func hello ( a : int ) -> real {
+    b = d ;
+}
+func hello2 ( a : int , b : real ) -> string {
+    c = d ; return b ;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
