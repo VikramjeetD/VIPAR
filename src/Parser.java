@@ -30,7 +30,6 @@ public class Parser {
     }
 
     void addLexeme(Pair pair) {
-        if (pair == null) return;
         String lexeme = pair.lexeme;
         if (errorOccurred) {
             if (lexeme.equals(";") || lexeme.equals("}"))
