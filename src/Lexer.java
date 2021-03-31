@@ -341,7 +341,6 @@ public class Lexer {
                 break;
             case 19:
                 if (safeTokens.contains(ch)) {
-                    pair = new Pair(Character.toString(ch), "TK_SAFE");
                     reset();
                 } else {
                     incEnd();

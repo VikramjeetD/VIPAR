@@ -8,8 +8,9 @@ its
 soo 
 cooooooool!';
     var x: int = syntaxerror;
-    var y: float = 1.2;
-    if ((x == 23 && y < 5) || y > 5) {
+    var y: real = 1.2;
+    if ((x == 23 & y < 5) | y > 5) {
         print('i like syntax errors');
     }
 }
+

@@ -29,4 +29,5 @@
 .tf-tree li.tf-dashed-children .tf-nc:after,.tf-tree li.tf-dashed-children .tf-nc:before,.tf-tree li.tf-dashed-children .tf-node-content:after,.tf-tree li.tf-dashed-children .tf-node-content:before{border-left-style:dashed}
 .tf-tree li.tf-dashed-children li:before{border-top-style:dashed}
 .tf-tree li.tf-dashed-children>.tf-nc:before,.tf-tree li.tf-dashed-children>.tf-node-content:before{border-left-style:solid}
-.null-class {background-color: lightgreen}
+.tf-terminal {background-color: greenyellow}
+.null-class {background-color: palevioletred}
