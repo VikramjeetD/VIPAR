@@ -1,0 +1,71 @@
+var a : int = 2 , b : real = 4.56 ;
+var c: string 'Its nice to have error in the start!';
+var d: int = 999999999999;
+
+func main ( ) { `
+    var c : int = 2 , d : real = 345.6789 ;
+    for i in 2 ... 8 {
+        count ( i , a b ) ; // Error function call
+        hellofunction(a, b);
+
+        while ( i < c ) {
+            c = d + a ;
+            if ( a < 'This is going to destroy your whole if else :)'; ) {
+                hello2 ( d ) ;
+            } elif ( a <= ( a - ( a / a ) ); ) {
+                b = c if ( d != a ) else d ;
+             }
+        }
+    }
+    switch (a) {
+        case 4 {hello(5);}
+        case 2 {hello(3;);}
+        case 5 {c = 'Above poor case!';};
+    }
+}
+func hello ( a : int ) -> real {
+    b = d ;
+}
+func hello2 ( a : int , b : real ) -> string {
+    c = d ; return b ;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

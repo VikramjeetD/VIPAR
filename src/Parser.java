@@ -1,8 +1,5 @@
 import java.awt.*;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.List;
 
@@ -16,6 +13,7 @@ public class Parser {
     private boolean errorOccurred, accepted, printed;
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
+    private BufferedWriter stackWriter;
 
     Parser() {
         parsingMap = ParseTable.parsingMap;
@@ -26,7 +24,12 @@ public class Parser {
 
         stack = new Stack<>();
         stack.push(new Node("0", true));
-        System.out.println("Initial stack: " + stack);
+        try {
+            stackWriter = new BufferedWriter(new FileWriter("src/STACK.txt"));
+        } catch (IOException ioe) {
+            System.out.println(ANSI_RED + "Unable to open file to write stack states!" + ANSI_RESET);
+        }
+        writeToStack("Initial", null, false);
     }
 
     void addLexeme(Pair pair, int line, int pos) {
@@ -49,25 +52,27 @@ public class Parser {
         action = table.get(getState()).get(parsingMap.get(parseSymbol));
         try {
             if (action.length() == 0) {
-                System.out.print(ANSI_RED + "PARSER ERROR: {Unexpected lexeme: '" + lexeme + "' at line " + line + " at position " + pos + ", ");
+                System.out.println(ANSI_RED + "PARSER ERROR: Unexpected lexeme '" + lexeme + "' at line " + line
+                        + ", " + pos + "!\nExpected one of the following: " + getExpectedTokens() + ANSI_RESET);
                 errorOccurred = true;
                 Node lastPoppedSymbol = stack.pop();
                 while (!stack.empty() && !reduceUntilTokens.contains(stack.peek().value)) {
                     lastPoppedSymbol = stack.pop();
                 }
                 stack.push(lastPoppedSymbol);
-                System.out.println("Reduced Stack: " + stack + "}" + ANSI_RESET);
             } else {
                 switch (action.charAt(0)) {
                     case 'r':
                         reduceStack(Integer.parseInt(action.substring(1)));
-                        System.out.println("Stack after applying REDUCE operation for '" + lexeme + "' at line " + line + ", pos " + pos + ": " + stack);
+                        System.out.println("Applying REDUCE operation for '" + lexeme + "' at line " + line + ", pos " + pos);
+                        writeToStack("Reduce", lexeme, false);
                         addLexeme(pair, line, pos);
                         break;
                     case 's':
                         stack.push(new Node(lexeme, false));
                         stack.push(new Node(action.substring(1), true));
-                        System.out.println("Stack after applying SHIFT operation for '" + lexeme + "' at line " + line + ", pos " + pos + "' : " + stack);
+                        System.out.println("Applying SHIFT operation for '" + lexeme + "' at line " + line + ", pos " + pos);
+                        writeToStack("Shift", lexeme, false);
                         break;
                     case 'a':
                         accepted = true;
@@ -76,11 +81,11 @@ public class Parser {
             }
         } catch (NumberFormatException nfe) {
             System.out.println("Error while parsing next state as an integer!");
-            nfe.printStackTrace();
         }
 
         if (accepted && lexeme.equals("$") && !printed) {
             System.out.println("CODE successfully parsed!");
+            writeToStack("Final", null, true);
             printed = true;
             drawTree();
         }
@@ -147,6 +152,46 @@ public class Parser {
             bw.write("</ul>\n");
         }
         bw.write("</li>\n");
+    }
+
+    private List<String> getExpectedTokens() {
+        Set<Integer> cols = new HashSet<>();
+        List<String> row = table.get(getState());
+        for (int i = 0; i < row.size(); i++) {
+            if (!row.get(i).equals("")) {
+                cols.add(i);
+            }
+        }
+        List<String> expectedTokens = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry: parsingMap.entrySet()) {
+            if (cols.contains(entry.getValue())) {
+                expectedTokens.add(entry.getKey());
+            }
+        }
+        return expectedTokens;
+    }
+
+    private void writeToStack(String operation, String token, boolean closeFile) {
+        String toWrite = "";
+        switch (operation) {
+            case "Initial":
+                toWrite = "Initial Stack: " + stack;
+                break;
+            case "Reduce":
+                toWrite = "REDUCE '" + token + "' -> " + stack;
+                break;
+            case "Shift":
+                toWrite = "SHIFT '" + token + "' -> " + stack;
+                break;
+            case "Final":
+                toWrite = "CODE successfully parsed!";
+                break;
+        }
+        try {
+            stackWriter.write(toWrite + "\n");
+            if (closeFile)
+                stackWriter.close();
+        } catch (IOException ignored) {}
     }
 }
 
