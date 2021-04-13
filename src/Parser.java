@@ -22,19 +22,19 @@ public class Parser {
         table = ParseTable.table;
         grammar = ParseTable.grammar;
         variableTokens = new HashSet<>(Arrays.asList("TK_IDF", "TK_INT", "TK_REAL", "TK_STR"));
-        reduceUntilTokens = new HashSet<>(Arrays.asList(";", "}", "{"));
+        reduceUntilTokens = new HashSet<>(Arrays.asList(";", "(", "}", "{", "STMT", "STMTLIST", "EXPR", "SUBEXPR"));
 
         stack = new Stack<>();
         stack.push(new Node("0", true));
         System.out.println("Initial stack: " + stack);
     }
 
-    void addLexeme(Pair pair) {
+    void addLexeme(Pair pair, int line, int pos) {
         String lexeme = pair.lexeme;
         if (errorOccurred) {
-            if (lexeme.equals(";") || lexeme.equals("}"))
+            if (lexeme.equals(";") || lexeme.equals("}") || lexeme.equals(")"))
                 errorOccurred = false;
-            return;
+                if (lexeme.equals(";")) return;
         }
 
         String action, parseSymbol, token = pair.token;
@@ -49,25 +49,25 @@ public class Parser {
         action = table.get(getState()).get(parsingMap.get(parseSymbol));
         try {
             if (action.length() == 0) {
-                System.out.print(ANSI_RED + "Unexpected lexeme: '" + lexeme + "' ! ");
+                System.out.print(ANSI_RED + "PARSER ERROR: {Unexpected lexeme: '" + lexeme + "' at line " + line + " at position " + pos + ", ");
                 errorOccurred = true;
-                Node lastPoppedSymbol = stack.peek();
+                Node lastPoppedSymbol = stack.pop();
                 while (!stack.empty() && !reduceUntilTokens.contains(stack.peek().value)) {
                     lastPoppedSymbol = stack.pop();
                 }
                 stack.push(lastPoppedSymbol);
-                System.out.println("Reduced Stack: " + stack + ANSI_RESET);
+                System.out.println("Reduced Stack: " + stack + "}" + ANSI_RESET);
             } else {
                 switch (action.charAt(0)) {
                     case 'r':
                         reduceStack(Integer.parseInt(action.substring(1)));
-                        System.out.println("Stack after applying REDUCE operation for '" + lexeme + "' : " + stack);
-                        addLexeme(pair);
+                        System.out.println("Stack after applying REDUCE operation for '" + lexeme + "' at line " + line + ", pos " + pos + ": " + stack);
+                        addLexeme(pair, line, pos);
                         break;
                     case 's':
                         stack.push(new Node(lexeme, false));
                         stack.push(new Node(action.substring(1), true));
-                        System.out.println("Stack after applying SHIFT operation for '" + lexeme + "' : " + stack);
+                        System.out.println("Stack after applying SHIFT operation for '" + lexeme + "' at line " + line + ", pos " + pos + "' : " + stack);
                         break;
                     case 'a':
                         accepted = true;

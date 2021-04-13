@@ -21,6 +21,8 @@ public class Lexer {
     private final Parser parser;
     private int line; // Line number
     private int pos; // Position in line
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
 
     private StringBuffer stringLiteral; // String literal variable for exceeding beyond buffer capacities
 
@@ -77,15 +79,15 @@ public class Lexer {
         while (!((endBufferNumber == 0 && buffer0[end] == 26) || (endBufferNumber == 1 && buffer1[end] == 26))) {
             char nextChar = endBufferNumber == 0 ? buffer0[end] : buffer1[end];
             Pair pair = transition(nextChar);
-            if (pair != null) parser.addLexeme(pair);
+            if (pair != null) parser.addLexeme(pair, line, pos);
             if (end >= BUFFER_SIZE) {
                 fillBuffer();
             }
         }
         if (state == 18) {
-            System.err.println("End of string literal not found on line " + line);
+            System.out.println(ANSI_RED + "LEXER ERROR: End of string literal not found on line " + line + ANSI_RESET);
         } else {
-            parser.addLexeme(new Pair("$", "TK_END"));
+            parser.addLexeme(new Pair("$", "TK_END"), line, pos);
         }
     }
 
@@ -162,7 +164,7 @@ public class Lexer {
                             incEnd();
                         } else {
                             state = 19;
-                            System.err.println("Illegal character: " + ch + " at line " + line + " at position " + pos);
+                            System.out.println(ANSI_RED + "LEXER ERROR: {Illegal character: " + ch + " at line " + line + " at position " + pos + "}" + ANSI_RESET);
                         }
                 }
                 break;
@@ -253,7 +255,7 @@ public class Lexer {
                     pair = printAndReset(tokens.get("..<"), 1);
                 } else {
                     state = 19;
-                    System.err.println("Unexpected token at line " + line + " at position " + (pos - 1));
+                    System.out.println(ANSI_RED + "LEXER ERROR: Unexpected token at line " + line + " at position " + (pos - 1) + ANSI_RESET);
                     incEnd();
                 }
                 break;
