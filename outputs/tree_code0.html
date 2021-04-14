@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Syntax Tree</title>
+ <link rel="stylesheet" href="./tree.css">
+ </head>
+<body>
+<div class="tf-tree">
+<ul>
+<li>
+<span class="tf-nc">PROGRAM</span>
+<ul>
+<li>
+<span class="tf-nc">PREMAINDECLARATIONS</span>
+<ul>
+<li>
+<span class="tf-nc">DECLARATION</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">var</span>
+</li>
+<li>
+<span class="tf-nc">VARDECLLIST</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">a</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">:</span>
+</li>
+<li>
+<span class="tf-nc">VARTYPE</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">int</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc">OPTASSIGNRHS</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">=</span>
+</li>
+<li>
+<span class="tf-nc">ASSIGNRHS</span>
+<ul>
+<li>
+<span class="tf-nc">EXPR</span>
+<ul>
+<li>
+<span class="tf-nc">SUBEXPR</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">2</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc null-class">MOREDECLS</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">;</span>
+</li>
+<li>
+<span class="tf-nc">PREMAINDECLARATIONS</span>
+<ul>
+<li>
+<span class="tf-nc">DECLARATION</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">var</span>
+</li>
+<li>
+<span class="tf-nc">VARDECLLIST</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">b</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">:</span>
+</li>
+<li>
+<span class="tf-nc">VARTYPE</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">real</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc">OPTASSIGNRHS</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">=</span>
+</li>
+<li>
+<span class="tf-nc">ASSIGNRHS</span>
+<ul>
+<li>
+<span class="tf-nc">EXPR</span>
+<ul>
+<li>
+<span class="tf-nc">SUBEXPR</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">1.23</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc null-class">MOREDECLS</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">;</span>
+</li>
+<li>
+<span class="tf-nc null-class">PREMAINDECLARATIONS</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc">MAINFUNC</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">func</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">main</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">(</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">)</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">{</span>
+</li>
+<li>
+<span class="tf-nc">STMTLIST</span>
+<ul>
+<li>
+<span class="tf-nc">STMT</span>
+<ul>
+<li>
+<span class="tf-nc">LOOP</span>
+<ul>
+<li>
+<span class="tf-nc">FORLOOP</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">for</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">i</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">in</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">1</span>
+</li>
+<li>
+<span class="tf-nc">LOOPOP</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">...</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">100</span>
+</li>
+<li>
+<span class="tf-nc">OPTSTEP</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">step</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">2</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">{</span>
+</li>
+<li>
+<span class="tf-nc">STMTLIST</span>
+<ul>
+<li>
+<span class="tf-nc">STMT</span>
+<ul>
+<li>
+<span class="tf-nc">DECLARATION</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">var</span>
+</li>
+<li>
+<span class="tf-nc">VARDECLLIST</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">x</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">:</span>
+</li>
+<li>
+<span class="tf-nc">VARTYPE</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">int</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc">OPTASSIGNRHS</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">=</span>
+</li>
+<li>
+<span class="tf-nc">ASSIGNRHS</span>
+<ul>
+<li>
+<span class="tf-nc">EXPR</span>
+<ul>
+<li>
+<span class="tf-nc">SUBEXPR</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">12</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc">MOREDECLS</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">,</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">y</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">:</span>
+</li>
+<li>
+<span class="tf-nc">VARTYPE</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">real</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc">OPTASSIGNRHS</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">=</span>
+</li>
+<li>
+<span class="tf-nc">ASSIGNRHS</span>
+<ul>
+<li>
+<span class="tf-nc">EXPR</span>
+<ul>
+<li>
+<span class="tf-nc">SUBEXPR</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">1</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">if</span>
+</li>
+<li>
+<span class="tf-nc">CONDITION</span>
+<ul>
+<li>
+<span class="tf-nc">SCONDITION</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">(</span>
+</li>
+<li>
+<span class="tf-nc">CONDITION</span>
+<ul>
+<li>
+<span class="tf-nc">SCONDITION</span>
+<ul>
+<li>
+<span class="tf-nc">EXPR</span>
+<ul>
+<li>
+<span class="tf-nc">SUBEXPR</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">a</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc">RELOP</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">==</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc">EXPR</span>
+<ul>
+<li>
+<span class="tf-nc">SUBEXPR</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">1</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">)</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">else</span>
+</li>
+<li>
+<span class="tf-nc">EXPR</span>
+<ul>
+<li>
+<span class="tf-nc">SUBEXPR</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">0</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc">MOREDECLS</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">,</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">z</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">:</span>
+</li>
+<li>
+<span class="tf-nc">VARTYPE</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">string</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc">OPTASSIGNRHS</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">=</span>
+</li>
+<li>
+<span class="tf-nc">ASSIGNRHS</span>
+<ul>
+<li>
+<span class="tf-nc">EXPR</span>
+<ul>
+<li>
+<span class="tf-nc">SUBEXPR</span>
+<ul>
+<li>
+<span class="tf-nc">FUNCCALLRHS</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">weirdFunction</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">(</span>
+</li>
+<li>
+<span class="tf-nc">ACTPARAMLIST</span>
+<ul>
+<li>
+<span class="tf-nc">VAROREXP</span>
+<ul>
+<li>
+<span class="tf-nc">EXPR</span>
+<ul>
+<li>
+<span class="tf-nc">SUBEXPR</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">a</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc">MOREPARAMS</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">,</span>
+</li>
+<li>
+<span class="tf-nc">VAROREXP</span>
+<ul>
+<li>
+<span class="tf-nc">EXPR</span>
+<ul>
+<li>
+<span class="tf-nc">SUBEXPR</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">b</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc">MOREPARAMS</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">,</span>
+</li>
+<li>
+<span class="tf-nc">VAROREXP</span>
+<ul>
+<li>
+<span class="tf-nc">EXPR</span>
+<ul>
+<li>
+<span class="tf-nc">SUBEXPR</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">i</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc null-class">MOREPARAMS</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">)</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc null-class">MOREDECLS</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">;</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc null-class">STMTLIST</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">}</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc">STMTLIST</span>
+<ul>
+<li>
+<span class="tf-nc">STMT</span>
+<ul>
+<li>
+<span class="tf-nc">DECLARATION</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">var</span>
+</li>
+<li>
+<span class="tf-nc">VARDECLLIST</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">s</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">:</span>
+</li>
+<li>
+<span class="tf-nc">VARTYPE</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">string</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc">OPTASSIGNRHS</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">=</span>
+</li>
+<li>
+<span class="tf-nc">ASSIGNRHS</span>
+<ul>
+<li>
+<span class="tf-nc">EXPR</span>
+<ul>
+<li>
+<span class="tf-nc">SUBEXPR</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">'toobadthisstringisjusttoolongomgwhat,nonotagain, stopppppp'</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc null-class">MOREDECLS</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">;</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc">STMTLIST</span>
+<ul>
+<li>
+<span class="tf-nc">STMT</span>
+<ul>
+<li>
+<span class="tf-nc">CONDITIONAL</span>
+<ul>
+<li>
+<span class="tf-nc">SWITCH</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">switch</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">(</span>
+</li>
+<li>
+<span class="tf-nc">EXPR</span>
+<ul>
+<li>
+<span class="tf-nc">SUBEXPR</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">i</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">)</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">{</span>
+</li>
+<li>
+<span class="tf-nc">CASES</span>
+<ul>
+<li>
+<span class="tf-nc">CASE</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">case</span>
+</li>
+<li>
+<span class="tf-nc">EXPR</span>
+<ul>
+<li>
+<span class="tf-nc">SUBEXPR</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">2</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">+</span>
+</li>
+<li>
+<span class="tf-nc">SUBEXPR</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">3</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">{</span>
+</li>
+<li>
+<span class="tf-nc">STMTLIST</span>
+<ul>
+<li>
+<span class="tf-nc">STMT</span>
+<ul>
+<li>
+<span class="tf-nc">FUNCCALL</span>
+<ul>
+<li>
+<span class="tf-nc">FUNCCALLRHS</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">weirdFunction</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">(</span>
+</li>
+<li>
+<span class="tf-nc">ACTPARAMLIST</span>
+<ul>
+<li>
+<span class="tf-nc">VAROREXP</span>
+<ul>
+<li>
+<span class="tf-nc">EXPR</span>
+<ul>
+<li>
+<span class="tf-nc">SUBEXPR</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">a</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc">MOREPARAMS</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">,</span>
+</li>
+<li>
+<span class="tf-nc">VAROREXP</span>
+<ul>
+<li>
+<span class="tf-nc">EXPR</span>
+<ul>
+<li>
+<span class="tf-nc">SUBEXPR</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">b</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc">MOREPARAMS</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">,</span>
+</li>
+<li>
+<span class="tf-nc">VAROREXP</span>
+<ul>
+<li>
+<span class="tf-nc">EXPR</span>
+<ul>
+<li>
+<span class="tf-nc">SUBEXPR</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">3</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc null-class">MOREPARAMS</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">)</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">;</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc null-class">STMTLIST</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">}</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc null-class">CASES</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">}</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc null-class">STMTLIST</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">}</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc">FUNCLIST</span>
+<ul>
+<li>
+<span class="tf-nc">FUNC</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">func</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">weirdFunction</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">(</span>
+</li>
+<li>
+<span class="tf-nc">FUNCPARAMLIST</span>
+<ul>
+<li>
+<span class="tf-nc">FUNCPARAMS</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">firstParam</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">:</span>
+</li>
+<li>
+<span class="tf-nc">VARTYPE</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">int</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc">MOREFUNCPARAMS</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">,</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">secondParam</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">:</span>
+</li>
+<li>
+<span class="tf-nc">VARTYPE</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">real</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc">MOREFUNCPARAMS</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">,</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">thirdParam</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">:</span>
+</li>
+<li>
+<span class="tf-nc">VARTYPE</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">real</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc null-class">MOREFUNCPARAMS</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">)</span>
+</li>
+<li>
+<span class="tf-nc tf-terminal">-></span>
+</li>
+<li>
+<span class="tf-nc">VARTYPE</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">int</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">{</span>
+</li>
+<li>
+<span class="tf-nc">FUNCSTMT</span>
+<ul>
+<li>
+<span class="tf-nc null-class">STMTLIST</span>
+</li>
+<li>
+<span class="tf-nc">OPTRETURN</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">return</span>
+</li>
+<li>
+<span class="tf-nc">EXPR</span>
+<ul>
+<li>
+<span class="tf-nc">SUBEXPR</span>
+<ul>
+<li>
+<span class="tf-nc tf-terminal">1</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">;</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc tf-terminal">}</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="tf-nc null-class">FUNCLIST</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</body>
+</html>

@@ -51,7 +51,7 @@ public class Lexer {
         reservedWords = Tokens.reservedWords;
         safeTokens = Tokens.safeTokens;
         reader = new Reader(filePath);
-        parser = new Parser();
+        parser = new Parser(filePath);
         fillBuffer();
         getTokens();
     }
@@ -86,6 +86,7 @@ public class Lexer {
         }
         if (state == 18) {
             System.out.println(ANSI_RED + "LEXER ERROR: End of string literal not found on line " + line + ANSI_RESET);
+            parser.closeStackWriter();
         } else {
             parser.addLexeme(new Pair("$", "TK_END"), line, pos);
         }

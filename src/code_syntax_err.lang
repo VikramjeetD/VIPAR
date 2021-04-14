@@ -1,9 +1,0 @@
-int
-
-func main () {
-    if (a = ) {
-        var a : number = 3.3;
-    } elif (what) {
-        print('ok');
-    }
-

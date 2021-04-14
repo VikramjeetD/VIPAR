@@ -14,8 +14,9 @@ public class Parser {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
     private BufferedWriter stackWriter;
+    private String inputFileName;
 
-    Parser() {
+    Parser(String inputFilePath) {
         parsingMap = ParseTable.parsingMap;
         table = ParseTable.table;
         grammar = ParseTable.grammar;
@@ -25,7 +26,9 @@ public class Parser {
         stack = new Stack<>();
         stack.push(new Node("0", true));
         try {
-            stackWriter = new BufferedWriter(new FileWriter("src/STACK.txt"));
+            inputFileName = inputFilePath.split("[/.]")[1];
+            String outputFilePath = "outputs/STACK_" + inputFileName + ".txt";
+            stackWriter = new BufferedWriter(new FileWriter(outputFilePath));
         } catch (IOException ioe) {
             System.out.println(ANSI_RED + "Unable to open file to write stack states!" + ANSI_RESET);
         }
@@ -117,7 +120,8 @@ public class Parser {
 
     private void drawTree() {
         try {
-            File file = new File("src/tree.html");
+            String treePath = "outputs/tree_" + inputFileName + ".html";
+            File file = new File(treePath);
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
             bw.write("<!DOCTYPE html>\n" +
                     "<html lang=\"en\">\n" +
@@ -192,6 +196,10 @@ public class Parser {
             if (closeFile)
                 stackWriter.close();
         } catch (IOException ignored) {}
+    }
+
+    void closeStackWriter() throws IOException {
+        stackWriter.close();
     }
 }
 
