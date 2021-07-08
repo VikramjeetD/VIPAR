@@ -21,9 +21,3 @@ func afunction(a: int, b: real, c: int) -> real{
 func anotherfunction() -> real {
     print('Why did I call this?');
 }
-
-
-
-
-
-

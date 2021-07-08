@@ -19,33 +19,3 @@ func hello ( a : int ) -> real {
 func hello2 ( a : int , b : real ) -> string {
     c = d ; return b ;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
