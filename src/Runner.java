@@ -4,6 +4,6 @@ import java.io.IOException;
 
 public class Runner {
     public static void main(String[] args) throws IOException, InvalidFormatException {
-        new Lexer("testcases/code0.viper");
+        new Lexer("testcases/code0.vipar");
     }
 }

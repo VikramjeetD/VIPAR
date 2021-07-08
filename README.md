@@ -54,7 +54,7 @@ Here's the corresponding [BNF Grammar](src/Grammar.txt) (Psst... Its even longer
 and the [parse table](src/ParseTable.xlsx) (this is the biggest!)
 
 # Usage
-Write some code and change the file name in the ```Runner``` class (extension doesn't really matter, but its cool to have your "own extension" :D). We've provided some sample valid code in ```code0.viper```, ```code1.viper``` and ```code2.viper```
+Write some code and change the file name in the ```Runner``` class (extension doesn't really matter, but its cool to have your "own extension" :D). We've provided some sample valid code in ```code0.vipar```, ```code1.vipar``` and ```code2.vipar```
 
 # Visualization
 A beautiful parse tree is created in the outputs folder. The green leaves are the terminals which are actually part of the code. The red leaves expand to the null string. Feel free to open the ```.html``` files we've included for our sample code!
